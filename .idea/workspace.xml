@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0b00c7db-36e2-4508-8df2-5ff348764c65" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/boilerplate.py" afterPath="$PROJECT_DIR$/boilerplate.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/labnoteify.py" afterPath="$PROJECT_DIR$/labnoteify.py" />
-    </list>
+    <list default="true" id="0b00c7db-36e2-4508-8df2-5ff348764c65" name="Default" comment="" />
     <ignored path="labnoteify.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -39,8 +36,8 @@
       <file leaf-file-name="boilerplate.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/boilerplate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.78696346" vertical-offset="0" max-vertical-offset="960">
-              <caret line="33" column="78" selection-start-line="33" selection-start-column="78" selection-end-line="33" selection-end-column="78" />
+            <state vertical-scroll-proportion="0.45310014" vertical-offset="0" max-vertical-offset="960">
+              <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -140,7 +137,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959184" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959184" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959184" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24954791" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -188,8 +185,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/boilerplate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78696346" vertical-offset="0" max-vertical-offset="960">
-          <caret line="33" column="78" selection-start-line="33" selection-start-column="78" selection-end-line="33" selection-end-column="78" />
+        <state vertical-scroll-proportion="0.45310014" vertical-offset="0" max-vertical-offset="960">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
           <folding />
         </state>
       </provider>
