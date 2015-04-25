@@ -2,22 +2,13 @@
 
 __author__ = 'Eachan Johnson'
 
-"""
-'\\033[95mCONCENSUS'\\033[0m
-(c) 2015 Eachan Johnson
-
-Software suite for dealing with Illumina sequencing barcode counting for multiplex growth assays.
-
-This is the collection of strings used often throughout the suite.
-"""
-
 ## Define functions
 def welcome():
     import time
     import colorama
     colorama.init()
     welcome_text = '\n' \
-                   'CONCENSUS\n' \
+                   'Labnoteify\n' \
                    '(c) 2015 Eachan Johnson\n\n' \
                    'The date is {} and the time is {}.\n' \
                    '\n'.format(
@@ -40,7 +31,7 @@ def goodbye():
 
 def misuse_warning():
     import colorama
-    warning = colorama.Fore.RED + '\nYou\'re doing it wrong!\nTry \'cnzs help\' (without quotes).\n' + \
+    warning = colorama.Fore.RED + '\nYou\'re doing it wrong!\nTry \'labnoteify help\' (without quotes).\n' + \
               colorama.Fore.RESET
     return warning
 

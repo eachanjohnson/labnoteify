@@ -3,21 +3,16 @@
 __author__ = 'Eachan Johnson'
 
 __doc__ = """
-Usage: cnzs [--version] [--help|-h] <command> [<args>...]
+Usage: labnoteify [--version] [--help|-h] <command> [<args>...]
 
 Options:
    -h, --help   Show this page and exit
    --version    Show version number and exit
 
-The most commonly used cnzs commands are:
-   setup        Install helper programs, like R
-   map          Count and map FASTQ file reads to plates, strains, and compounds
-   rearray      Re-array strain coutns to different wells
-   remap        Re-annotate updated map data
-   plot         Analyze and plot mapped sequencing data
-   homology     Get known targets of hits
-   chemlearn    Machine learning on screen data
-See 'cnzs help <command>' for more information on a specific command.
+The most commonly used labnoteify commands are:
+    setup       Interactively create a config file
+    noteify     Convert emails and files to HTML lab notebook
+See 'labnoteify help <command>' for more information on a specific command.
 """
 
 ## Define functions
