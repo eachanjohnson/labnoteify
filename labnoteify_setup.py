@@ -12,63 +12,39 @@ Options:
 """
 
 ## Define functions
+def questionnnaire():
+    print('Let me ask some questions.\n')
+
+    directories = raw_input('Which directories do you want me to look in? Give the name of a TXT file with a list'
+                           'of directories, or provide the top directory of a tree you want me to drill down.\n')
+
+    noteify_ignore = raw_input('\nDo you want me to ignore any file types? Say no or give a space-separated list of '
+                              'file extensions.\n')
+
+    return {'dir': directories, 'ignore': noteify_ignore}
+
+def write_config_file(filename, answers):
+    import json
+    with open(filename, 'w') as f:
+        json.dump(answers, f)
+    return filename
+
 def main():
     import docopt       # For super-smart command line option parsing
     import subprocess   # For making bash calls
 
     args = docopt.docopt(__doc__)  # Parse command line arguments
 
-    print('Seeing if you have R installed...')
-    install_r = 'no'
-    try:
-        r_path = subprocess.check_output(['which', 'Rscript']).rstrip()
-    except subprocess.CalledProcessError:
-        install_r = raw_input('You don\'t have R installed. Do you want to install it? [yes/no]\n')
+    if args['--verbose']:
+        verbosity = 2
+    elif args['--quiet']:
+        verbosity = 0
     else:
-        print('R is installed, and located at {}.'.format(r_path))
+        verbosity = 1
 
-    if install_r.lower() == 'yes' or install_r.lower() == 'y':
-        import platform
-        import urllib2
-        system  = platform.system()
-        url = False
-        if system == 'Darwin':
-            distro = system
-            version = platform.mac_ver()[0]
-            version_no = int(version.split('.')[1])
-            if version_no >= 9:
-                url = 'http://cran.rstudio.com/bin/macosx/R-3.1.3-snowleopard.pkg'
-            elif version_no >= 6:
-                url = 'http://cran.rstudio.com/bin/macosx/R-3.1.3-snowleopard.pkg'
-            else:
-                exit('Sorry! MacOS X version {} is unsupported. You can still use parts of CONCENSUS'.format(version))
-        elif system == 'Linux':
-            linux_info = platform.linux_distribution(full_distribution_name=False)
-            distro = linux_info[0]
-            version = linux_info[1]
-            exit('Sorry! Go to http://cran.rstudio.org and download R for Linux {} {}. '
-                 'Then run \'cnzs setup\' again'.format(distro, version))
-        elif system == 'Windows':
-            distro = system
-            version = platform.win32_ver()[1]
-            exit('Go to http://cran.rstudio.org and download R for Linux {} {}. Then run \'cnzs setup\' again'.format(
-                distro, version
-            ))
-        else:
-            exit('Sorry! Couldn\'t detect your system version to download R. Go to http://cran.rstudio.org.')
-        if url:
-            try:
-                request = urllib2.urlopen(url)
-                with open('R-download.pkg', 'w') as f:
-                    f.write(request.read())
-            except urllib2.HTTPError:
-                exit('Sorry! Couldn\'t seem to download R for MacOS X version {}. '
-                     'Go to http://cran.rstudio.org.'.format(version))
-            else:
-                print('Downloaded R from {}\n'
-                      'You need to install it yourself.'.format(url))
+    answers = questionnnaire()
+    write_config_file(filename='noteify.config', answers=answers)
 
-    print('You should be all set.')
     return None
 
 ## Boilerplate

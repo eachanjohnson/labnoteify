@@ -28,13 +28,13 @@ def main():
     argv = [args['<command>']] + args['<args>']
     if args['<command>'] in ['help', None]:
         try:
-            subprocess.call(['python', 'cnzs_{}.py'.format(args['<args>'][0]), '--help'])
+            subprocess.call(['python', 'labnoteify_{}.py'.format(args['<args>'][0]), '--help'])
         except IndexError:
-            subprocess.call(['python', 'cnzs.py', '--help'])
-    elif args['<command>'] in ['setup', 'map', 'rearray', 'remap', 'plot', 'homology', 'chemlearn']:
-        subprocess.call(['python', 'cnzs_{}.py'.format(args['<command>'])] + argv)
+            subprocess.call(['python', 'labnoteify.py', '--help'])
+    elif args['<command>'] in ['setup', 'noteify']:
+        subprocess.call(['python', 'labnoteify_{}.py'.format(args['<command>'])] + argv)
     else:
-        print('{} is not a cnzs.py command. See \'cnzs help\'.\n'.format(args['<command>']))
+        print('{} is not a labnoteify.py command. See \'labnoteify help\'.\n'.format(args['<command>']))
 
     print(boilerplate.goodbye())  # Say goodbye to the user
 
