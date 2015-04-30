@@ -18,7 +18,7 @@ Options:
 def find_files(root, ignore):
     import os
     file_list = []
-    print 'Finding files in ', root
+    print 'Finding files in', root
     walker = os.walk(root)
     for dir, subdirs, filenames in walker:
         file_list += [os.path.join(dir, filename) for filename in filenames]
@@ -47,6 +47,7 @@ def find_files(root, ignore):
         else:
             pass
             #print 'Ignoring: ', filename
+    print len(cleaned_file_list), 'files found.'
     return cleaned_file_list
 
 
@@ -65,7 +66,9 @@ def main():
     file_names = find_files(root=setup['root'], ignore=setup['ignore'])
 
     file_list = []
-    for path in file_names:
+    print 'Converting files to HTML'
+    for n, path in enumerate(file_names):
+        print n
         try:
             file_list.append(toolkit.LabnotiFile(path=path, root=setup['root'], type=path.split('.')[-1]))
         except OSError:
@@ -73,10 +76,10 @@ def main():
     #print file_list[0]
 
     file_list = sorted(file_list, key=lambda x: x.epoch_date)
-    dates = list(set([f.date for f in file_list if f.size < 1000000]))
+    dates = list(set([f.date for f in file_list if f.html != '']))
     day_list = []
     for date in dates:
-        day_list.append(toolkit.Day([f for f in file_list if f.date == date and f.size < 1000000]))
+        day_list.append(toolkit.Day([f for f in file_list if f.date == date]))
     nb = toolkit.Notebook(day_list=day_list)
     toolkit.html_gen(notebook=nb, outdir=setup['output'])
     return None

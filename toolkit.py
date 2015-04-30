@@ -21,12 +21,10 @@ class LabnotiFile(object):
 
     def get_date(self):
         import os.path
-        import time
         date = os.path.getctime(filename=self.path)
         return date
 
     def get_tags(self):
-        import os.path
         relative_pwd = ''
         pwd = self.path
         try:
@@ -47,6 +45,7 @@ class LabnotiFile(object):
             'doc': 'Word DOC',
             'xls': 'Excel XLSX',
             'xlsx': 'Excel XLSX',
+            'pptx': 'Powerpoint PPTX',
             'R': 'code',
             'py': 'code',
             'md': 'Markdown'
@@ -58,15 +57,43 @@ class LabnotiFile(object):
         return t
 
     def htmlify(self):
-        #print 'HTMLifying ', self.filename
+        print 'HTMLifying ', self.path
+        html = ''
         if self.type == 'image':
-            html = '<img src="../img/{}" />'.format(self.filename)
+            import os.path
+            if os.path.exists(self.path.split(self.filename)[0] + self.filename.split('.png')[0] + '.pdf'):
+                html = ''
+            else:
+                html = '<img src="../img/{}" height="500" />'.format(self.filename)
         elif self.type == 'code':
-            html = '<pre><code>../code/{}</code><pre>'.format(open(self.path, 'rU').read())
+            html = '<pre style="background-color:rgba(0, 0, 255, 0.2);"><code>../code/{}</code></pre>'.format(
+                open(self.path, 'rU').read()
+            )
+        elif self.type == 'PDF':
+            from wand.image import Image
+            import os.path
+            new_filename = self.filename.split('.pdf')[0] + '.png'
+            if os.path.exists(self.path.split(self.filename)[0] + new_filename):
+                pass
+            else:
+                with Image(filename=self.path, resolution=300) as img:
+                    try:
+                        img.save(filename=self.path.split(self.filename)[0] + new_filename)
+                    except:
+                        pass
+            self.filename = new_filename
+            html = '<img src="../pdf/{}" height="500" />'.format(self.filename)
         elif self.type == 'Markdown':
             import markdown
             converter = markdown.Converter()
             html = converter.convert(self.path)
+        elif self.type == 'Powerpoint PPTX':
+            from comtypes import client
+            powerpoint = client.CreateObject('Powerpoint.Application')
+            powerpoint.Presentations.Open(self.path)
+            powerpoint.ActivePresentation.Export(self.path, 'PNG')
+            powerpoint.ActivePresentation.Close()
+            powerpoint.Quit()
         elif self.type == 'Excel XLSX':
             import xlrd
             import csv
@@ -115,15 +142,21 @@ class LabnotiFile(object):
     def csv_to_html(self, filename):
         import csv
         if filename[0] != '.':
-            html = '<table id={}>'.format(filename)
+            html = '<table id="{}" style="background-color:rgba(0, 255, 0, 0.2); border:2px solid black; border-collapse:collapse;">'.format(filename)
         else:
-            html = '<table id={}>'.format(self.path)
+            html = '<table id="{}" style="background-color:rgba(0, 255, 0, 0.2); border:2px solid black;">'.format(self.path)
         with open(filename, 'rU') as f:
             c = csv.reader(f)
-            for row in c:
-                html += '<tr><td>'
-                html += '</td><td>'.join(row)
-                html += '</td></tr>'
+            for n, row in enumerate(c):
+                if n == 0:
+                    row_type = 'th'
+                    html += '<tr style="background-color:rgba(255, 0, 0, 0.2)"><{} style="padding:4px;">'.format(row_type)
+                else:
+                    row_type = 'td'
+                    html += '<tr><{} style="border:2px; padding:4px;">'.format(row_type)
+                joining_string = '</{}><{} style="border:2px; padding:4px;">'.format(row_type, row_type)
+                html += joining_string.join(row)
+                html += '</{}></tr>'.format(row_type)
         html += '</table>'
         return html
 
@@ -154,14 +187,34 @@ class Day(object):
         #print 'Collating day', self.date, len(file_list)
         self.files = file_list
         self.filename = '{}_{}.html'.format(self.epoch_date, self.date)
+        self.tags = self.get_tags()
         self.html = self.get_html()
 
+    def get_tags(self):
+        t = []
+        for f in self.files:
+            t += f.tags
+        t = sorted(list(set(t)))
+        return t
+
     def get_html(self):
-        print 'HTMLifying day ', self.date
-        html = '<html><body><h1>{}</h1>'.format(self.date)
+        print 'HTMLifying day', self.date
+        html = '<html>' \
+               '<head>' \
+               '<title>{}</title>' \
+               '<link href="http://fonts.googleapis.com/css?family=Lato|PT+Serif" rel="stylesheet" type="text/css">' \
+               '<link href="../style.css" rel="stylesheet" type="text/css" />' \
+               '</head>' \
+               '<body>' \
+               '<h1>{}</h1>'.format(self.date, self.date)
+        html += '<ul>'
         for experiment in self.files:
-            print experiment.path, experiment.size
-            html += '<h3>' + ', '.join(experiment.tags) + '</h3>'
+            html += '<li><a href="#' + experiment.path + '">' + experiment.filename + '</a></li>'
+        html += '</ul>'
+        for experiment in self.files:
+            # print experiment.path, experiment.size
+            html += '<h2 id="' + experiment.path + '"><a href="' + experiment.path + '">' + experiment.filename + '</a></h2>'
+            html += '<h4>tags: #' + ', #'.join(experiment.tags) + '</h4>'
             try:
                 html += '<section>' + experiment.html + '</section>'
             except UnicodeDecodeError:
@@ -185,9 +238,12 @@ class Day(object):
 class Notebook(object):
 
     def __init__(self, day_list):
+        import time
         print 'Collating notebook'
-        self.days = day_list
+        self.days = sorted(day_list, key=lambda x: x.epoch_date, reverse=True)
         self.filename = 'index.html'
+        self.epoch_date = time.time()
+        self.date = time.asctime(time.localtime(self.epoch_date))
 
     def __str__(self):
         print self.filename
@@ -196,31 +252,50 @@ class Notebook(object):
 def html_gen(notebook, outdir):
 
     import os
+    import shutil
 
     if not os.path.exists(outdir):
         os.makedirs(outdir)
-    if not os.path.exists(outdir+'/html'):
-        os.makedirs(outdir+'/html')
-    if not os.path.exists(outdir+'/img'):
-        os.makedirs(outdir+'/img')
-    if not os.path.exists(outdir+'/img'):
-        os.makedirs(outdir+'/code')
+    if os.path.exists(outdir+'/html'):
+        shutil.rmtree(outdir+'/html')
+    os.makedirs(outdir+'/html')
+    if os.path.exists(outdir+'/img'):
+        shutil.rmtree(outdir+'/img')
+    os.makedirs(outdir+'/img')
+    if os.path.exists(outdir+'/pdf'):
+        shutil.rmtree(outdir+'/pdf')
+    os.makedirs(outdir+'/pdf')
+
+    shutil.copy('style.css', outdir + '/style.css')
 
     for day in notebook.days:
         day.write(outdir=outdir+'/html')
         for f in day.files:
             if f.type == 'image':
                 try:
-                    os.symlink(f.path, outdir+'/img/'+f.filename)
+                    shutil.copy2(f.path, outdir+'/img/'+f.filename)
                 except OSError:
                     pass
-            elif f.type == 'code':
-                os.symlink(f.path, outdir+'/code/'+f.filename)
+            elif f.type == 'PDF':
+                try:
+                    shutil.copy2(f.path, outdir+'/pdf/'+f.filename)
+                except OSError:
+                    pass
 
-    html = '<html><body><h1>Lab notebook</h1>'
-    html += '<ul><li>'
-    html += '</li><li>'.join(['<a href="html/{}">{}</a>'.format(day.filename, day.date) for day in notebook.days])
-    html += '</li></ul></body></html>'
+    html = '<html>' \
+           '<head>' \
+           '<title>Eachan Johnson | Lab Notebook</title>' \
+           '<link href="http://fonts.googleapis.com/css?family=Lato|PT+Serif" rel="stylesheet" type="text/css">' \
+           '<link href="style.css" rel="stylesheet" type="text/css" />' \
+           '</head>' \
+           '<body>' \
+           '<h1>Eachan Johnson | Lab Notebook</h1>'
+    html += '<h3>Last updated ' + notebook.date + '</h3>'
+    html += '<table><tr><th>Date</th><th>Size</th><th>Tags</th><tr>'
+    html += '</tr><tr>'.join(['<td><a href="html/{}">{}</a></td><td>{}</td><td style="color:#00ff00;">{}</td>'.format(
+        day.filename, day.date, sum([int(f.size) for f in day.files]), ', '.join(day.tags)
+    ) for day in notebook.days])
+    html += '</tr></table></body></html>'
 
     filename = outdir + '/index.html'
 

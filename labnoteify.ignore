@@ -2,9 +2,11 @@
 .xlsx
 .csv
 .png
+.pdf
+.py
+.R
 Mendeley Desktop/
-Readcube Media/
-driving/ 
+ReadCube Media/
 manuscripts/
 journal_club/
 lab_meetings/
@@ -14,13 +16,18 @@ Processing/
 R scratch/
 RDC connections/
 Serial Cloner Library/
-gates_project/seq_data_scratch
 Sequencing Results/
 structures/
 conferences/
 general/
 outreach/
 peer_review/
-gates_project/assay_development/
+recruitment/
 gates_project/seq_data_scratch/
-gates_project/assay_development/growth_curves/modelling/
+gates_project/assay_development/growth_curves/
+gates_project/pilot/old_screen_data/
+gates_project/pilot/screen_data/
+gates_project/pilot/scratch/
+driving/
+My EndNote Library.enlp/
+My EndNote Library.Data/

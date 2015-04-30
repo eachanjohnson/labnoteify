@@ -1,0 +1,23 @@
+section {
+	font-style: 'PT Serif', serif;
+}
+
+h1, h2, h3 {
+	font-style: 'Lato', sans-serif;
+}
+
+h1 {
+	text-align: center;
+	font-size: 7em;
+}
+
+a {
+	text-decoration: none;
+	color: #ff0000;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #000000;
+}
+
