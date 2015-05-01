@@ -59,7 +59,7 @@ class LabnotiFile(object):
         return t
 
     def htmlify(self):
-        print 'HTMLifying ', self.path
+        #print 'HTMLifying ', self.path
         html = ''
         if self.type == 'image':
             import os.path

@@ -15,7 +15,7 @@ Options:
 """
 
 ## Define functions
-def find_files(root, ignore):
+def find_files(root, ignore, verbosity=0):
     import os
     file_list = []
     print 'Finding files in', root
@@ -47,13 +47,13 @@ def find_files(root, ignore):
         else:
             pass
             #print 'Ignoring: ', filename
-    print len(cleaned_file_list), 'files found.'
+    if verbosity > 0
+        print len(cleaned_file_list), 'files found.'
     return cleaned_file_list
 
 
 def main():
     import docopt       # For super-smart command line option parsing
-    #import subprocess   # For making bash calls
     import toolkit
     import json
 
@@ -63,12 +63,21 @@ def main():
     setup = json.load(open('noteify.config', 'rU'))
     #print setup
 
+    if args['--verbose']:
+        verbosity = 2
+    elif args['--quiet']:
+        verbosity = 0
+    else:
+        verbosity = 1
+
     file_names = find_files(root=setup['root'], ignore=setup['ignore'])
 
     file_list = []
-    print 'Converting files to HTML'
+    len_file_names = len(file_names)
+    print 'Converting files to HTML. This may take a while...'
     for n, path in enumerate(file_names):
-        print n
+        if verbosity > 1:
+            print 'HTMLifying file number {} of {}:'.format(n, len_file_names), path
         try:
             file_list.append(toolkit.LabnotiFile(path=path, root=setup['root'], type=path.split('.')[-1]))
         except OSError:
@@ -82,8 +91,11 @@ def main():
         day_list.append(toolkit.Day([f for f in file_list if f.date == date]))
     nb = toolkit.Notebook(day_list=day_list)
     toolkit.html_gen(notebook=nb, outdir=setup['output'])
-    return None
+    if verbosity > 0:
+        return 'Wrote notebook in', setup['output']
+    else:
+        return ''
 
 ## Boilerplate
 if __name__ == '__main__':
-    main()
+    print(main())

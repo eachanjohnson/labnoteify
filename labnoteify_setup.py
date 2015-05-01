@@ -15,13 +15,13 @@ Options:
 def questionnnaire():
     print('Let me ask some questions.\n')
 
-    root = raw_input('Which directories do you want me to look in? Give the name of a TXT file with a list'
-                           'of directories, or provide the top directory of a tree you want me to drill down.\n')
+    root = raw_input('What is the root directory to drill down for notebook content?\n')
 
-    output = raw_input('Which directories do you want me publish your notebook?\n')
+    output = raw_input('In which directory do you want me publish your notebook? '
+                       'If it doesn\'t exist, I\'ll create it.\n')
 
-    ignore_list = raw_input('\nDo you want me to ignore any file types? Say no or give a space-separated list of '
-                              'file extensions or a TXT file.\n')
+    ignore_list = raw_input('Please give me the path to a text file listing the extensions of file types you want to '
+                            'include and the paths (relative to the directory above) you want to ignore.\n')
 
     try:
         ignore_list = open(ignore_list, 'rU').read().split('\n')[:-1]
