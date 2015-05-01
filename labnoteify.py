@@ -12,6 +12,7 @@ Options:
 The most commonly used labnoteify commands are:
     setup       Interactively create a config file
     noteify     Convert emails and files to HTML lab notebook
+    cleanup     Cleanup any PNG mess made by labnoteify
 See 'labnoteify help <command>' for more information on a specific command.
 """
 
@@ -31,7 +32,7 @@ def main():
             subprocess.call(['python', 'labnoteify_{}.py'.format(args['<args>'][0]), '--help'])
         except IndexError:
             subprocess.call(['python', 'labnoteify.py', '--help'])
-    elif args['<command>'] in ['setup', 'noteify']:
+    elif args['<command>'] in ['setup', 'noteify', 'cleanup']:
         subprocess.call(['python', 'labnoteify_{}.py'.format(args['<command>'])] + argv)
     else:
         print('{} is not a labnoteify.py command. See \'labnoteify help\'.\n'.format(args['<command>']))

@@ -73,8 +73,10 @@ class LabnotiFile(object):
             )
         elif self.type == 'PDF':
             from wand.image import Image
+            import os
             import os.path
-            new_filename = self.filename.split('.pdf')[0] + '.png'
+            new_filename = self.filename.split('.pdf')[0] + '.noteify.png'
+            new_filename_root = self.filename.split('.pdf')[0]
             if os.path.exists(self.path.split(self.filename)[0] + new_filename):
                 pass
             else:
@@ -83,9 +85,10 @@ class LabnotiFile(object):
                         img.save(filename=self.path.split(self.filename)[0] + new_filename)
                     except:
                         pass
-            self.filename = new_filename
-            self.type = 'image'
-            html = '<img src="../img/{}" height="500" />'.format(self.filename)
+            self.filename = sorted([filename for filename in os.listdir(self.path.split(self.filename)[0])
+                             if new_filename_root in filename and '.noteify' in filename and '.png' in filename])
+            for filename in self.filename:
+                html += '<img src="../pdf/{}" height="500" />'.format(filename)
         elif self.type == 'Markdown':
             import markdown
             converter = markdown.Converter()
@@ -277,14 +280,15 @@ def html_gen(notebook, outdir):
         for f in day.files:
             if f.type == 'image':
                 try:
-                    subprocess.call(['cp', f.path, outdir+'/img/'+f.filename])
+                    subprocess.call(['cp', f.path, outdir + '/img/' + f.filename])
                 except subprocess.CalledProcessError:
                     pass
             elif f.type == 'PDF':
-                try:
-                    subprocess.call(['cp', f.path, outdir+'/pdf/'+f.filename])
-                except subprocess.CalledProcessError:
-                    pass
+                for filename in f.filename:
+                    try:
+                        subprocess.call(['cp', f.path, outdir + '/pdf/' + filename])
+                    except subprocess.CalledProcessError:
+                        pass
 
     html = '<html>' \
            '<head>' \
