@@ -1,9 +1,13 @@
-section {
-	font-style: 'PT Serif', serif;
+* {
+	font-family: 'PT Serif', serif;
 }
 
 h1, h2, h3 {
-	font-style: 'Lato', sans-serif;
+	font-family: 'Lato', sans-serif;
+}
+
+code {
+	font-family: 'Inconsolata', serif;
 }
 
 h1 {

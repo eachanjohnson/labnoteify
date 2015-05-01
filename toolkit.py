@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import division
+
 __author__ = 'Eachan Johnson'
 
 ## Define classes
@@ -66,7 +68,7 @@ class LabnotiFile(object):
             else:
                 html = '<img src="../img/{}" height="500" />'.format(self.filename)
         elif self.type == 'code':
-            html = '<pre style="background-color:rgba(0, 0, 255, 0.2);"><code>../code/{}</code></pre>'.format(
+            html = '<pre style="background-color:rgba(0, 0, 255, 0.2);"><code>{}</code></pre>'.format(
                 open(self.path, 'rU').read()
             )
         elif self.type == 'PDF':
@@ -82,7 +84,8 @@ class LabnotiFile(object):
                     except:
                         pass
             self.filename = new_filename
-            html = '<img src="../pdf/{}" height="500" />'.format(self.filename)
+            self.type = 'image'
+            html = '<img src="../img/{}" height="500" />'.format(self.filename)
         elif self.type == 'Markdown':
             import markdown
             converter = markdown.Converter()
@@ -202,12 +205,12 @@ class Day(object):
         html = '<html>' \
                '<head>' \
                '<title>{}</title>' \
-               '<link href="http://fonts.googleapis.com/css?family=Lato|PT+Serif" rel="stylesheet" type="text/css">' \
+               '<link href="http://fonts.googleapis.com/css?family=Lato|PT+Serif|Inconsolata" rel="stylesheet" type="text/css">' \
                '<link href="../style.css" rel="stylesheet" type="text/css" />' \
                '</head>' \
                '<body>' \
                '<h1>{}</h1>'.format(self.date, self.date)
-        html += '<ul>'
+        html += '<h2>Contents</h2><ul>'
         for experiment in self.files:
             html += '<li><a href="#' + experiment.path + '">' + experiment.filename + '</a></li>'
         html += '</ul>'
@@ -253,6 +256,7 @@ def html_gen(notebook, outdir):
 
     import os
     import shutil
+    import subprocess
 
     if not os.path.exists(outdir):
         os.makedirs(outdir)
@@ -273,27 +277,27 @@ def html_gen(notebook, outdir):
         for f in day.files:
             if f.type == 'image':
                 try:
-                    shutil.copy2(f.path, outdir+'/img/'+f.filename)
-                except OSError:
+                    subprocess.call(['cp', f.path, outdir+'/img/'+f.filename])
+                except subprocess.CalledProcessError:
                     pass
             elif f.type == 'PDF':
                 try:
-                    shutil.copy2(f.path, outdir+'/pdf/'+f.filename)
-                except OSError:
+                    subprocess.call(['cp', f.path, outdir+'/pdf/'+f.filename])
+                except subprocess.CalledProcessError:
                     pass
 
     html = '<html>' \
            '<head>' \
            '<title>Eachan Johnson | Lab Notebook</title>' \
-           '<link href="http://fonts.googleapis.com/css?family=Lato|PT+Serif" rel="stylesheet" type="text/css">' \
+           '<link href="http://fonts.googleapis.com/css?family=Lato|PT+Serif|Inconsolata" rel="stylesheet" type="text/css">' \
            '<link href="style.css" rel="stylesheet" type="text/css" />' \
            '</head>' \
            '<body>' \
            '<h1>Eachan Johnson | Lab Notebook</h1>'
     html += '<h3>Last updated ' + notebook.date + '</h3>'
-    html += '<table><tr><th>Date</th><th>Size</th><th>Tags</th><tr>'
+    html += '<table><tr><th>Date</th><th>Size / MB</th><th>Tags</th><tr>'
     html += '</tr><tr>'.join(['<td><a href="html/{}">{}</a></td><td>{}</td><td style="color:#00ff00;">{}</td>'.format(
-        day.filename, day.date, sum([int(f.size) for f in day.files]), ', '.join(day.tags)
+        day.filename, day.date, sum([(f.size / 1000000) for f in day.files]), ', '.join(day.tags)
     ) for day in notebook.days])
     html += '</tr></table></body></html>'
 
