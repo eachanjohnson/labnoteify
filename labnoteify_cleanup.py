@@ -40,7 +40,8 @@ def main():
         #print path, filename, filename_root, ext, path_name, filename_root + '.pdf' in os.listdir(path_name)
         try:
             if ext == '.pdf':
-                png_list = [f for f in os.listdir(path_name) if f[-12:] == '.noteify.png' and filename_root in f]
+                png_list = [f for f in os.listdir(path_name)
+                            if f[-4:] == '.png' and filename_root in f and '.noteify' in f]
                 for png in png_list:
                     png_path = path_name + png
                     print 'Primed to delete', png_path

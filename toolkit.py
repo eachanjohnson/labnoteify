@@ -63,7 +63,7 @@ class LabnotiFile(object):
         html = ''
         if self.type == 'image':
             import os.path
-            if os.path.exists(self.path.split(self.filename)[0] + self.filename.split('.png')[0] + '.pdf'):
+            if '.noteify' in self.filename and '.png' in self.filename:
                 html = ''
             else:
                 html = '<img src="../img/{}" height="500" />'.format(self.filename)
@@ -75,9 +75,9 @@ class LabnotiFile(object):
             from wand.image import Image
             import os
             import os.path
-            new_filename = self.filename.split('.pdf')[0] + '.noteify.png'
-            new_filename_root = self.filename.split('.pdf')[0]
-            if os.path.exists(self.path.split(self.filename)[0] + new_filename):
+            filename_root = self.filename.split('.pdf')[0]
+            new_filename = filename_root + '.noteify.png'
+            if os.path.exists(self.path.split(self.filename)[0] + new_filename) or os.path.exists(self.path.split(self.filename)[0] + filename_root + '-1.png'):
                 pass
             else:
                 with Image(filename=self.path, resolution=300) as img:
@@ -86,7 +86,7 @@ class LabnotiFile(object):
                     except:
                         pass
             self.filename = sorted([filename for filename in os.listdir(self.path.split(self.filename)[0])
-                             if new_filename_root in filename and '.noteify' in filename and '.png' in filename])
+                             if filename_root in filename and '.noteify' in filename and '.png' in filename])
             for filename in self.filename:
                 html += '<img src="../pdf/{}" height="500" />'.format(filename)
         elif self.type == 'Markdown':

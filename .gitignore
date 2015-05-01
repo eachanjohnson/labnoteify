@@ -1,2 +1,5 @@
 *.pyc
 .gitignore/
+.idea/
+noteify.config
+labnoteify.ignore
