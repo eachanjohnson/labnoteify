@@ -231,7 +231,7 @@ class Day(object):
             else:
                 try:
                     html += '<h2 id="' + experiment.path + '"><a href="' + experiment.path + '">' + \
-                        experiment.filename[0].split('.png')[0] + '.pdf</a></h2>'
+                        experiment.filename[0].split('.noteify')[0] + '.pdf</a></h2>'
                 except IndexError:
                     pass
             html += '<h4>tags: #' + ', #'.join(experiment.tags) + '</h4>'

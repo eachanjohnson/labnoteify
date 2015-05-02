@@ -28,7 +28,7 @@ Is your lab notebook made up of random files on your computer?
 
 ## Requirements
 * Python 2.7
-* Python packages (all are available by `pip install`):
+* Python packages (all are available by doing `pip install wand docopt xlrd`):
     * Wand
     * docopt
     * xlrd
