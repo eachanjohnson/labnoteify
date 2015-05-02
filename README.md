@@ -34,7 +34,8 @@ Is your lab notebook made up of random files on your computer?
 ## Usage
 1. Download the files in this repository to a convenient location.
 2. In the Terminal, `cd` to the directory containing these files.
-3. Run `python labnoteify.py setup`, follow the interactive instructions.
-4. Run `python labnoteify.py noteify`, sit back and relax.
-5. PDF conversion generates a lot of PNGs. You can delete them with `python labnoteify.py cleanup`, but leaving them will make re-compiling your notebook faster.
+3. Try `python labnoteify.py help` if you get stuck.
+4. Run `python labnoteify.py setup`, follow the interactive instructions.
+5. Run `python labnoteify.py noteify`, sit back and relax.
+6. PDF conversion generates a lot of PNGs. You can delete them with `python labnoteify.py cleanup`, but leaving them will make re-compiling your notebook faster.
 
