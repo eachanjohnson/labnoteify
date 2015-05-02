@@ -9,11 +9,11 @@ Usage:  labnoteify noteify (-h|--help)
         labnoteify noteify (-c|--count)
 
 Options:
-    -h, --help      Show this page and exit
-    --version       Show version and exit
-    -v, --verbose   Be more verbose. Over-rides --quiet/-q
-    -q, --quiet     Be more quiet
-    -c, --count     Just count the number of files that would be included in the notebook
+    -h, --help                  Show this page and exit
+    --version                   Show version and exit
+    -v, --verbose               Be more verbose. Over-rides --quiet/-q
+    -q, --quiet                 Be more quiet
+    -c, --count                 Just count the number of files that would be included in the notebook
 """
 
 ## Define functions
@@ -99,9 +99,9 @@ def main():
     for date in dates:
         day_list.append(toolkit.Day([f for f in file_list if f.date == date]))
     nb = toolkit.Notebook(day_list=day_list)
-    toolkit.html_gen(notebook=nb, outdir=setup['output'])
+    toolkit.html_gen(notebook=nb, outdir=setup['output'], name=setup['name'])
     if verbosity > 0:
-        return 'Wrote notebook in', setup['output']
+        return 'Wrote notebook in {}.'.format(setup['output'])
     else:
         return ''
 

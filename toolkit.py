@@ -269,7 +269,7 @@ class Notebook(object):
         print self.filename
 
 
-def html_gen(notebook, outdir):
+def html_gen(notebook, outdir, name):
 
     import os
     import shutil
@@ -306,7 +306,7 @@ def html_gen(notebook, outdir):
 
     html = '<html>' \
            '<head>' \
-           '<title>Eachan Johnson | Lab Notebook</title>' \
+           '<title>' + name + ' | Lab Notebook</title>' \
            '<link href="http://fonts.googleapis.com/css?family=Lato|PT+Serif|Inconsolata" rel="stylesheet" type="text/css">' \
            '<link href="style.css" rel="stylesheet" type="text/css" />' \
            '</head>' \

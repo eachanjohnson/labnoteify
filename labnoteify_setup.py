@@ -23,6 +23,8 @@ def questionnnaire():
     ignore_list = raw_input('Please give me the path to a text file listing the extensions of file types you want to '
                             'include and the paths (relative to the directory above) you want to ignore.\n')
 
+    name = raw_input('Finally, what is your name?\n')
+
     try:
         ignore_list = open(ignore_list, 'rU').read().split('\n')[:-1]
     except IOError:
@@ -33,7 +35,7 @@ def questionnnaire():
         'dir': ['{}/{}'.format(root, item) for item in ignore_list if item[-1:] == '/']
     }
 
-    setup = {'root': root, 'output': output, 'ignore': noteify_ignore}
+    setup = {'root': root, 'output': output, 'ignore': noteify_ignore, 'name': name}
     return setup
 
 def write_config_file(filename, answers):
