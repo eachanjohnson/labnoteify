@@ -6,12 +6,14 @@ __doc__ = """
 Usage:  labnoteify noteify (-h|--help)
         labnoteify noteify --version
         labnoteify noteify [-v|--verbose] [-q|--quiet]
+        labnoteify noteify (-c|--count)
 
 Options:
     -h, --help      Show this page and exit
     --version       Show version and exit
     -v, --verbose   Be more verbose. Over-rides --quiet/-q
     -q, --quiet     Be more quiet
+    -c, --count     Just count the number of files that would be included in the notebook
 """
 
 ## Define functions
@@ -63,14 +65,18 @@ def main():
     setup = json.load(open('noteify.config', 'rU'))
     #print setup
 
-    if args['--verbose']:
+    if args['--count']:
+        verbosity = 0
+    elif args['--verbose']:
         verbosity = 2
     elif args['--quiet']:
         verbosity = 0
     else:
         verbosity = 1
 
-    file_names = find_files(root=setup['root'], ignore=setup['ignore'])
+    file_names = find_files(root=setup['root'], ignore=setup['ignore'], verbosity=verbosity)
+    if args['--count']:
+        return '{} files found.'.format(len([f for f in file_names if '.noteify' not in f]))
 
     file_list = []
     len_file_names = len(file_names)
