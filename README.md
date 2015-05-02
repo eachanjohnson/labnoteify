@@ -1,11 +1,10 @@
-## Labnoteify
+# Labnoteify
 
-# Introduction
 Is your lab notebook made up of random files on your computer?
 
 **Labnoteify** is a framework for compiling these into something more meaningful. After running `python labnoteify.py setup`, run `python labnoteify.py noteify` to convert everything you want into a browsable HTML notebook.
 
-# Features
+## Features
 * Runs on Python 2.7, so portable for Unix, Mac OSX, Windows, Linux
 * Organises most common files into a date-ordered HTML lab notebook:
     * R and Python code
@@ -14,17 +13,17 @@ Is your lab notebook made up of random files on your computer?
     * PDFs
     * PNGs and JPEGs
 
-# Wishlist
+## Wishlist
 * PDF output for printing
 * Compatibility with DOC and XLS legacy formats
 * Use Markdown files to optionally embed narrative, override dates, and structure pages
 * Prettier HTML
 
-# Issues
+## Issues
 * PDFs don't embed properly
 * Not a `setup.py` installable package yet
 
-# Requirements
+## Requirements
 * Python 2.7
 * Python packages (all are available by `pip install`):
     * Wand
@@ -32,7 +31,7 @@ Is your lab notebook made up of random files on your computer?
     * xlrd
 * Ability to `cd` in the Terminal
 
-# Usage
+## Usage
 1. Download the files in this repository to a convenient location.
 2. In the Terminal, `cd` to the directory containing these files.
 3. Run `python labnoteify.py setup`, follow the interactive instructions.
