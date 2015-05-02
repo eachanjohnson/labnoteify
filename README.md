@@ -18,6 +18,7 @@ Is your lab notebook made up of random files on your computer?
 * PDF output for printing
 * Compatibility with DOC and XLS legacy formats
 * Use Markdown files to optionally embed narrative, override dates, and structure pages
+* Prettier HTML
 
 # Issues
 * PDFs don't embed properly
