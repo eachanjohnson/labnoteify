@@ -66,7 +66,7 @@ class LabnotiFile(object):
             if '.noteify' in self.filename and '.png' in self.filename:
                 html = ''
             else:
-                html = '<img src="../img/{}" height="500" />'.format(self.filename)
+                html = '<img src="../img/{}" height="750" />'.format(self.filename)
         elif self.type == 'code':
             html = '<pre style="background-color:rgba(0, 0, 255, 0.2);"><code>{}</code></pre>'.format(
                 open(self.path, 'rU').read()
@@ -88,7 +88,7 @@ class LabnotiFile(object):
             self.filename = sorted([filename for filename in os.listdir(self.path.split(self.filename)[0])
                              if filename_root in filename and '.noteify' in filename and '.png' in filename])
             for filename in self.filename:
-                html += '<img src="../pdf/{}" height="500" />'.format(filename)
+                html += '<img src="../pdf/{}" height="750" />'.format(filename)
         elif self.type == 'Markdown':
             import markdown
             converter = markdown.Converter()
@@ -294,13 +294,13 @@ def html_gen(notebook, outdir):
         for f in day.files:
             if f.type == 'image':
                 try:
-                    subprocess.call(['cp', f.path, outdir + '/img/'])
+                    _ = subprocess.call(['ln', '-s', f.path, outdir + '/img/'])
                 except subprocess.CalledProcessError:
                     pass
             elif f.type == 'PDF':
                 for filename in f.filename:
                     try:
-                        subprocess.call(['cp', '/'.join(f.path.split('/')[:-1]) + '/' + filename, outdir + '/pdf/'])
+                        _ = subprocess.call(['ln', '-s', '/'.join(f.path.split('/')[:-1]) + '/' + filename, outdir + '/pdf/'])
                     except subprocess.CalledProcessError:
                         pass
 
