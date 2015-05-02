@@ -83,7 +83,10 @@ def main():
     print 'Converting files to HTML. This may take a while...'
     for n, path in enumerate(file_names):
         if verbosity > 1:
-            print 'HTMLifying file number {} of {}:'.format(n, len_file_names), path
+            if not '.noteify' in path and not '.png' in path:
+                print 'HTMLifying file number {} of {}:'.format(n, len_file_names), path
+            else:
+                pass
         try:
             file_list.append(toolkit.LabnotiFile(path=path, root=setup['root'], type=path.split('.')[-1]))
         except OSError:
@@ -104,4 +107,7 @@ def main():
 
 ## Boilerplate
 if __name__ == '__main__':
-    print(main())
+    try:
+        print(main())
+    except KeyboardInterrupt:
+        print('Goodbye!')

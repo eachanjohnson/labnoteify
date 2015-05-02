@@ -215,11 +215,19 @@ class Day(object):
                '<h1>{}</h1>'.format(self.date, self.date)
         html += '<h2>Contents</h2><ul>'
         for experiment in self.files:
-            html += '<li><a href="#' + experiment.path + '">' + experiment.filename + '</a></li>'
+            if type(experiment.filename) == list:
+                html += '<li><a href="#' + experiment.path + '">' + experiment.filename[0].split('.png')[0] + '.pdf</a></li>'
+            else:
+                html += '<li><a href="#' + experiment.path + '">' + experiment.filename + '</a></li>'
         html += '</ul>'
         for experiment in self.files:
             # print experiment.path, experiment.size
-            html += '<h2 id="' + experiment.path + '"><a href="' + experiment.path + '">' + experiment.filename + '</a></h2>'
+            if type(experiment.filename) != list:
+                html += '<h2 id="' + experiment.path + '"><a href="' + experiment.path + '">' + \
+                        experiment.filename + '</a></h2>'
+            else:
+                html += '<h2 id="' + experiment.path + '"><a href="' + experiment.path + '">' + \
+                        experiment.filename[0].split('.png')[0] + '.pdf</a></h2>'
             html += '<h4>tags: #' + ', #'.join(experiment.tags) + '</h4>'
             try:
                 html += '<section>' + experiment.html + '</section>'
