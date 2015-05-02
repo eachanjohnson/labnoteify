@@ -216,7 +216,10 @@ class Day(object):
         html += '<h2>Contents</h2><ul>'
         for experiment in self.files:
             if type(experiment.filename) == list:
-                html += '<li><a href="#' + experiment.path + '">' + experiment.filename[0].split('.png')[0] + '.pdf</a></li>'
+                try:
+                    html += '<li><a href="#' + experiment.path + '">' + experiment.filename[0].split('.noteify')[0] + '.pdf</a></li>'
+                except IndexError:
+                    pass
             else:
                 html += '<li><a href="#' + experiment.path + '">' + experiment.filename + '</a></li>'
         html += '</ul>'
@@ -226,8 +229,11 @@ class Day(object):
                 html += '<h2 id="' + experiment.path + '"><a href="' + experiment.path + '">' + \
                         experiment.filename + '</a></h2>'
             else:
-                html += '<h2 id="' + experiment.path + '"><a href="' + experiment.path + '">' + \
+                try:
+                    html += '<h2 id="' + experiment.path + '"><a href="' + experiment.path + '">' + \
                         experiment.filename[0].split('.png')[0] + '.pdf</a></h2>'
+                except IndexError:
+                    pass
             html += '<h4>tags: #' + ', #'.join(experiment.tags) + '</h4>'
             try:
                 html += '<section>' + experiment.html + '</section>'
@@ -288,13 +294,13 @@ def html_gen(notebook, outdir):
         for f in day.files:
             if f.type == 'image':
                 try:
-                    subprocess.call(['cp', f.path, outdir + '/img/' + f.filename])
+                    subprocess.call(['cp', f.path, outdir + '/img/'])
                 except subprocess.CalledProcessError:
                     pass
             elif f.type == 'PDF':
                 for filename in f.filename:
                     try:
-                        subprocess.call(['cp', f.path, outdir + '/pdf/' + filename])
+                        subprocess.call(['cp', '/'.join(f.path.split('/')[:-1]) + '/' + filename, outdir + '/pdf/'])
                     except subprocess.CalledProcessError:
                         pass
 

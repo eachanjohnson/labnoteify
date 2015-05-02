@@ -16,13 +16,14 @@ Is your lab notebook made up of random files on your computer?
 ## Wishlist
 * PDF output for printing
 * Compatibility with DOC and XLS legacy formats
+* Better/prettier handling of DOCX and XLSX
+* Embedding of iPython Notebooks
 * Ability to extract relevant data-containing emails
 * Use Markdown files to optionally embed narrative, override dates, and structure pages
 * Prettier HTML
 * HTML pagination for larger notebook pages
 
 ## Issues
-* PDFs don't embed properly
 * Not a `setup.py` installable package yet
 
 ## Requirements
