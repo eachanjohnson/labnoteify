@@ -47,7 +47,7 @@ def find_files(root, ignore, verbosity=0):
         else:
             pass
             #print 'Ignoring: ', filename
-    if verbosity > 0
+    if verbosity > 0:
         print len(cleaned_file_list), 'files found.'
     return cleaned_file_list
 

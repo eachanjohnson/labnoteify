@@ -5,13 +5,11 @@ __author__ = 'Eachan Johnson'
 __doc__ = """
 Usage:  labnoteify cleanup (-h|--help)
         labnoteify cleanup --version
-        labnoteify cleanup [-v|--verbose] [-q|--quiet]
+        labnoteify cleanup
 
 Options:
     -h, --help      Show this page and exit
     --version       Show version and exit
-    -v, --verbose   Be more verbose. Over-rides --quiet/-q
-    -q, --quiet     Be more quiet
 """
 
 ## Define functions
